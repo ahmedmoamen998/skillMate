@@ -104,35 +104,24 @@ namespace SkillMate.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var skillClass = await _context.SkillClasses
-                .FirstOrDefaultAsync(s => s.Id == id);
+            var skillClass = await _context.SkillClasses.FindAsync(id);
 
             if (skillClass == null)
             {
                 return NotFound();
             }
 
-            return View(skillClass);
-        }
+            _context.SkillClasses.Remove(skillClass);
+            await _context.SaveChangesAsync();
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var skillClass = await _context.SkillClasses.FindAsync(id);
-
-            if (skillClass != null)
-            {
-                _context.SkillClasses.Remove(skillClass);
-                await _context.SaveChangesAsync();
-            }
+            TempData["Success"] = "Skill class deleted successfully.";
 
             return RedirectToAction(nameof(Index));
         }
-
         [Authorize(Roles = "User")]
         [HttpPost]
         [ValidateAntiForgeryToken]
