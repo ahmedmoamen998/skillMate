@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Student Homepage";
+}
+
+<div class="hero">
+    <div>
+        <h1>Welcome to SkillMate</h1>
+        <p>Learn from students, share your skills, and grow together.</p>
+
+        <div class="hero-actions">
+            <a asp-controller="SkillClasses" asp-action="Index" class="btn-primary">Browse Skills</a>
+            <a asp-controller="InstructorRequests" asp-action="Create" class="btn-secondary">Apply as Instructor</a>
+            <a asp-controller="InstructorRequests" asp-action="MyRequests" class="btn-light">My Requests</a>
+        </div>
+    </div>
+</div>
+
+<div class="features-grid">
+    <div class="feature-card">
+        <h3>Browse Skills</h3>
+        <p>Find programming, design, language, and soft skill classes.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>Join Instructors</h3>
+        <p>Register with student instructors and start learning.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>Become Instructor</h3>
+        <p>Submit a request and share your knowledge with classmates.</p>
+    </div>
+</div>

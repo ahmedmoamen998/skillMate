@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - SkillMate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a asp-controller="Home" asp-action="Index">SkillMate</a>
+        </div>
+
+        <div class="nav-links">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Home" asp-action="Index">Home</a>
+                <a asp-controller="SkillClasses" asp-action="Index">Skills</a>
+
+                @if (User.IsInRole("User"))
+                {
+                    <a asp-controller="InstructorRequests" asp-action="Create">Apply</a>
+                    <a asp-controller="InstructorRequests" asp-action="MyRequests">My Requests</a>
+                }
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="SkillClasses" asp-action="Create">Add Skill</a>
+                    <a asp-controller="InstructorRequests" asp-action="Index">Requests</a>
+                }
+
+                <a asp-controller="Account" asp-action="Logout" class="logout-link">Logout</a>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login">Login</a>
+                <a asp-controller="Account" asp-action="Register">Register</a>
+            }
+        </div>
+    </nav>
+
+    <main class="main-container">
+        @RenderBody()
+    </main>
+
+    <script src="~/js/site.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

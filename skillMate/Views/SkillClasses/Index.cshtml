@@ -1,0 +1,96 @@
+﻿@model IEnumerable<SkillMate.Models.SkillClass>
+
+@{
+    ViewData["Title"] = "Skill Classes";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Skill Classes</h2>
+        <p>Browse available student-led skill classes.</p>
+    </div>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create" class="btn-primary">Add New Skill</a>
+    }
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert-success">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert-danger">@TempData["Error"]</div>
+}
+
+<div class="filters-box">
+    <input type="text" id="skillSearch" placeholder="Search by skill or instructor..." onkeyup="filterSkills()" />
+
+    <select id="categoryFilter" onchange="filterSkills()">
+        <option value="">All Categories</option>
+        <option value="Programming">Programming</option>
+        <option value="Design">Design</option>
+        <option value="Language">Language</option>
+        <option value="Business">Business</option>
+        <option value="Soft Skills">Soft Skills</option>
+    </select>
+
+    <select id="levelFilter" onchange="filterSkills()">
+        <option value="">All Levels</option>
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Advanced">Advanced</option>
+    </select>
+</div>
+
+<div class="skills-grid">
+    @foreach (var item in Model)
+    {
+        int registeredStudents = item.StudentRegistrations != null
+        ? item.StudentRegistrations.Count
+        : 0;
+
+        <div class="skill-card"
+             data-skill="@item.SkillName.ToLower()"
+             data-instructor="@item.InstructorName.ToLower()"
+             data-category="@item.Category"
+             data-level="@item.Level">
+
+            <span class="badge">@item.Category</span>
+
+            <h3>@item.SkillName</h3>
+
+            <p><strong>Instructor:</strong> @item.InstructorName</p>
+            <p><strong>Level:</strong> @item.Level</p>
+            <p><strong>Available:</strong> @item.AvailableTime</p>
+            <p><strong>Students:</strong> @registeredStudents / @item.MaxStudents</p>
+
+            <div class="card-actions">
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn-light">Details</a>
+
+                @if (User.IsInRole("User"))
+                {
+                    if (registeredStudents >= item.MaxStudents)
+                    {
+                        <button class="btn-disabled" disabled>Full</button>
+                    }
+                    else
+                    {
+                        <form asp-action="Join" asp-route-id="@item.Id" method="post" class="inline-form">
+                            <button type="submit" class="btn-primary">Join</button>
+                        </form>
+                    }
+                }
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn-secondary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn-danger">Delete</a>
+                }
+            </div>
+        </div>
+    }
+</div>

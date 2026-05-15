@@ -1,0 +1,50 @@
+﻿@model SkillMate.Models.SkillClass
+
+@{
+    ViewData["Title"] = "Skill Details";
+
+    int registeredStudents = Model.StudentRegistrations != null
+        ? Model.StudentRegistrations.Count
+        : 0;
+}
+
+<div class="details-card">
+    <span class="badge">@Model.Category</span>
+
+    <h2>@Model.SkillName</h2>
+
+    <p><strong>Instructor:</strong> @Model.InstructorName</p>
+    <p><strong>Level:</strong> @Model.Level</p>
+    <p><strong>Available Time:</strong> @Model.AvailableTime</p>
+    <p><strong>Contact Info:</strong> @Model.ContactInfo</p>
+    <p><strong>Students:</strong> @registeredStudents / @Model.MaxStudents</p>
+
+    <hr />
+
+    <h3>Description</h3>
+    <p>@Model.Description</p>
+
+    <div class="card-actions">
+        <a asp-action="Index" class="btn-light">Back</a>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-secondary">Edit</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn-danger">Delete</a>
+        }
+
+        @if (User.IsInRole("User"))
+        {
+            if (registeredStudents >= Model.MaxStudents)
+            {
+                <button class="btn-disabled" disabled>Full</button>
+            }
+            else
+            {
+                <form asp-action="Join" asp-route-id="@Model.Id" method="post" class="inline-form">
+                    <button type="submit" class="btn-primary">Join</button>
+                </form>
+            }
+        }
+    </div>
+</div>

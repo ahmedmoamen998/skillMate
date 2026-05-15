@@ -1,0 +1,53 @@
+﻿@model IEnumerable<SkillMate.Models.InstructorRequest>
+
+@{
+    ViewData["Title"] = "Instructor Requests";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Instructor Requests</h2>
+        <p>Review, approve, or reject student instructor requests.</p>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Skill</th>
+            <th>Category</th>
+            <th>Level</th>
+            <th>Status</th>
+            <th>Submitted</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Student?.FullName</td>
+                <td>@item.SkillName</td>
+                <td>@item.Category</td>
+                <td>@item.Level</td>
+                <td>
+                    <span class="status-badge @item.Status.ToLower()">
+                        @item.Status
+                    </span>
+                </td>
+                <td>@item.SubmittedDate.ToShortDateString()</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-light">Details</a>
+
+                    @if (item.Status == "Pending")
+                    {
+                        <a asp-action="Approve" asp-route-id="@item.Id" class="btn-primary">Approve</a>
+                        <a asp-action="Reject" asp-route-id="@item.Id" class="btn-danger">Reject</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

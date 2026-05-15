@@ -1,0 +1,18 @@
+﻿@model SkillMate.Models.SkillClass
+
+@{
+    ViewData["Title"] = "Create Skill";
+}
+
+<div class="form-card">
+    <h2>Add New Skill Class</h2>
+
+    <form asp-action="Create" method="post" onsubmit="return validateSkillForm()">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        @await Html.PartialAsync("_SkillClassForm", Model)
+
+        <button type="submit" class="btn-primary">Create</button>
+        <a asp-action="Index" class="btn-light">Back</a>
+    </form>
+</div>

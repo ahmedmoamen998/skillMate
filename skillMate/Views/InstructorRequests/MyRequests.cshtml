@@ -1,0 +1,43 @@
+﻿@model IEnumerable<SkillMate.Models.InstructorRequest>
+
+@{
+    ViewData["Title"] = "My Requests";
+}
+
+<div class="page-header">
+    <div>
+        <h2>My Instructor Requests</h2>
+        <p>Track your instructor application status.</p>
+    </div>
+
+    <a asp-action="Create" class="btn-primary">New Request</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Skill</th>
+            <th>Category</th>
+            <th>Level</th>
+            <th>Status</th>
+            <th>Submitted Date</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SkillName</td>
+                <td>@item.Category</td>
+                <td>@item.Level</td>
+                <td>
+                    <span class="status-badge @item.Status.ToLower()">
+                        @item.Status
+                    </span>
+                </td>
+                <td>@item.SubmittedDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,34 @@
+﻿@model SkillMate.Models.InstructorRequest
+
+@{
+    ViewData["Title"] = "Request Details";
+}
+
+<div class="details-card">
+    <span class="status-badge @Model.Status.ToLower()">@Model.Status</span>
+
+    <h2>@Model.SkillName</h2>
+
+    <p><strong>Student:</strong> @Model.Student?.FullName</p>
+    <p><strong>Category:</strong> @Model.Category</p>
+    <p><strong>Level:</strong> @Model.Level</p>
+    <p><strong>Available Time:</strong> @Model.AvailableTime</p>
+    <p><strong>Max Students:</strong> @Model.MaxStudents</p>
+    <p><strong>Contact Info:</strong> @Model.ContactInfo</p>
+    <p><strong>Submitted Date:</strong> @Model.SubmittedDate.ToShortDateString()</p>
+
+    <hr />
+
+    <h3>Description</h3>
+    <p>@Model.Description</p>
+
+    <div class="card-actions">
+        <a asp-action="Index" class="btn-light">Back</a>
+
+        @if (Model.Status == "Pending")
+        {
+            <a asp-action="Approve" asp-route-id="@Model.Id" class="btn-primary">Approve</a>
+            <a asp-action="Reject" asp-route-id="@Model.Id" class="btn-danger">Reject</a>
+        }
+    </div>
+</div>
