@@ -52,28 +52,6 @@ namespace skillMate.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InstructorRequests",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SkillName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Level = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AvailableTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MaxStudents = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SubmittedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InstructorRequests", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SkillClasses",
                 columns: table => new
                 {
@@ -86,8 +64,7 @@ namespace skillMate.Migrations
                     AvailableTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContactInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MaxStudents = table.Column<int>(type: "int", nullable: false),
-                    RegisteredStudentsCount = table.Column<int>(type: "int", nullable: false)
+                    MaxStudents = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -201,18 +178,52 @@ namespace skillMate.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "InstructorRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SkillName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Level = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AvailableTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MaxStudents = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubmittedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InstructorRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InstructorRequests_AspNetUsers_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "StudentRegistrations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     SkillClassId = table.Column<int>(type: "int", nullable: false),
                     JoinDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StudentRegistrations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StudentRegistrations_AspNetUsers_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_StudentRegistrations_SkillClasses_SkillClassId",
                         column: x => x.SkillClassId,
@@ -261,9 +272,19 @@ namespace skillMate.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_InstructorRequests_StudentId",
+                table: "InstructorRequests",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_StudentRegistrations_SkillClassId",
                 table: "StudentRegistrations",
                 column: "SkillClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentRegistrations_StudentId",
+                table: "StudentRegistrations",
+                column: "StudentId");
         }
 
         /// <inheritdoc />

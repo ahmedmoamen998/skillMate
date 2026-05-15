@@ -1,33 +1,43 @@
-﻿@{
+@{
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<div class="hero admin-hero">
-    <div>
-        <h1>Welcome Admin</h1>
-        <p>Manage skill classes, instructor requests, and student registrations.</p>
+<section class="hero-section admin-hero-section text-white rounded-4 p-4 p-md-5 shadow-lg mb-4">
+    <h1 class="display-5 fw-bold mb-3">Welcome Admin</h1>
+    <p class="lead mb-4">Manage skill classes, instructor requests, and student registrations.</p>
 
-        <div class="hero-actions">
-            <a asp-controller="SkillClasses" asp-action="Index" class="btn-primary">Manage Skills</a>
-            <a asp-controller="SkillClasses" asp-action="Create" class="btn-secondary">Add New Skill</a>
-            <a asp-controller="InstructorRequests" asp-action="Index" class="btn-light">Instructor Requests</a>
+    <div class="d-flex gap-2 flex-wrap">
+        <a asp-controller="SkillClasses" asp-action="Index" class="btn btn-light btn-lg fw-semibold">Manage Skills</a>
+        <a asp-controller="SkillClasses" asp-action="Create" class="btn btn-success btn-lg fw-semibold">Add New Skill</a>
+        <a asp-controller="InstructorRequests" asp-action="Index" class="btn btn-outline-light btn-lg fw-semibold">Instructor Requests</a>
+    </div>
+</section>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <p class="text-muted fw-semibold mb-1">Total Skills</p>
+                <h2 class="display-6 fw-bold text-primary mb-0">@ViewBag.TotalSkills</h2>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="dashboard-grid">
-    <div class="dashboard-card">
-        <h3>Total Skills</h3>
-        <p>@ViewBag.TotalSkills</p>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <p class="text-muted fw-semibold mb-1">Pending Requests</p>
+                <h2 class="display-6 fw-bold text-warning mb-0">@ViewBag.PendingRequests</h2>
+            </div>
+        </div>
     </div>
 
-    <div class="dashboard-card">
-        <h3>Pending Requests</h3>
-        <p>@ViewBag.PendingRequests</p>
-    </div>
-
-    <div class="dashboard-card">
-        <h3>Total Registrations</h3>
-        <p>@ViewBag.TotalRegisteredStudents</p>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <p class="text-muted fw-semibold mb-1">Total Registrations</p>
+                <h2 class="display-6 fw-bold text-success mb-0">@ViewBag.TotalRegisteredStudents</h2>
+            </div>
+        </div>
     </div>
 </div>

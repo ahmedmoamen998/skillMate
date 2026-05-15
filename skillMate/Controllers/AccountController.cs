@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SkillMate.Models;
 
@@ -23,23 +23,38 @@ namespace SkillMate.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(
             string fullName,
             string email,
             string password,
             string confirmPassword)
         {
-            if (string.IsNullOrWhiteSpace(fullName) ||
-                string.IsNullOrWhiteSpace(email) ||
-                string.IsNullOrWhiteSpace(password))
+            ViewData["FullName"] = fullName;
+            ViewData["Email"] = email;
+
+            if (string.IsNullOrWhiteSpace(fullName))
             {
-                ViewBag.Error = "Please fill all fields.";
-                return View();
+                ModelState.AddModelError("fullName", "Full name is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                ModelState.AddModelError("email", "Email is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                ModelState.AddModelError("password", "Password is required.");
             }
 
             if (password != confirmPassword)
             {
-                ViewBag.Error = "Password and Confirm Password do not match.";
+                ModelState.AddModelError("confirmPassword", "Password and Confirm Password do not match.");
+            }
+
+            if (!ModelState.IsValid)
+            {
                 return View();
             }
 
@@ -56,17 +71,18 @@ namespace SkillMate.Controllers
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "User");
-                await _signInManager.SignInAsync(user, false);
+
+                await _signInManager.SignInAsync(user, isPersistent: false);
 
                 return RedirectToAction("Index", "Home");
             }
+
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                ModelState.AddModelError("", error.Description);
             }
 
             return View();
-         
         }
 
         public IActionResult Login()
@@ -75,15 +91,27 @@ namespace SkillMate.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(
             string email,
             string password,
             bool rememberMe)
         {
-            if (string.IsNullOrWhiteSpace(email) ||
-                string.IsNullOrWhiteSpace(password))
+            ViewData["Email"] = email;
+            ViewData["RememberMe"] = rememberMe;
+
+            if (string.IsNullOrWhiteSpace(email))
             {
-                ViewBag.Error = "Please enter email and password.";
+                ModelState.AddModelError("email", "Email is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                ModelState.AddModelError("password", "Password is required.");
+            }
+
+            if (!ModelState.IsValid)
+            {
                 return View();
             }
 
@@ -91,7 +119,7 @@ namespace SkillMate.Controllers
                 email,
                 password,
                 rememberMe,
-                false
+                lockoutOnFailure: false
             );
 
             if (result.Succeeded)
@@ -99,11 +127,13 @@ namespace SkillMate.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.Error = "Invalid email or password.";
+            ModelState.AddModelError("", "Invalid email or password.");
+
             return View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

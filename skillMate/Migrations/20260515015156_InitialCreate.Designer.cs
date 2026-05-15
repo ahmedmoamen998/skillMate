@@ -12,7 +12,7 @@ using SkillMate.Data;
 namespace skillMate.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260503235656_InitialCreate")]
+    [Migration("20260515015156_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -266,14 +266,16 @@ namespace skillMate.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StudentName")
+                    b.Property<string>("StudentId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("SubmittedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("InstructorRequests");
                 });
@@ -313,9 +315,6 @@ namespace skillMate.Migrations
                     b.Property<int>("MaxStudents")
                         .HasColumnType("int");
 
-                    b.Property<int>("RegisteredStudentsCount")
-                        .HasColumnType("int");
-
                     b.Property<string>("SkillName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -339,13 +338,15 @@ namespace skillMate.Migrations
                     b.Property<int>("SkillClassId")
                         .HasColumnType("int");
 
-                    b.Property<string>("StudentName")
+                    b.Property<string>("StudentId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SkillClassId");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("StudentRegistrations");
                 });
@@ -401,15 +402,46 @@ namespace skillMate.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SkillMate.Models.InstructorRequest", b =>
+                {
+                    b.HasOne("SkillMate.Models.ApplicationUser", "Student")
+                        .WithMany("InstructorRequests")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("SkillMate.Models.StudentRegistration", b =>
                 {
                     b.HasOne("SkillMate.Models.SkillClass", "SkillClass")
-                        .WithMany()
+                        .WithMany("StudentRegistrations")
                         .HasForeignKey("SkillClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SkillMate.Models.ApplicationUser", "Student")
+                        .WithMany("StudentRegistrations")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("SkillClass");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("SkillMate.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("InstructorRequests");
+
+                    b.Navigation("StudentRegistrations");
+                });
+
+            modelBuilder.Entity("SkillMate.Models.SkillClass", b =>
+                {
+                    b.Navigation("StudentRegistrations");
                 });
 #pragma warning restore 612, 618
         }

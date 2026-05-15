@@ -1,43 +1,49 @@
-﻿@model IEnumerable<SkillMate.Models.InstructorRequest>
+@model IEnumerable<SkillMate.Models.InstructorRequest>
 
 @{
     ViewData["Title"] = "My Requests";
 }
 
-<div class="page-header">
+<div class="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-4">
     <div>
-        <h2>My Instructor Requests</h2>
-        <p>Track your instructor application status.</p>
+        <h2 class="fw-bold mb-1">My Instructor Requests</h2>
+        <p class="text-muted mb-0">Track your instructor application status.</p>
     </div>
 
-    <a asp-action="Create" class="btn-primary">New Request</a>
+    <a asp-action="Create" class="btn btn-primary">New Request</a>
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Skill</th>
-            <th>Category</th>
-            <th>Level</th>
-            <th>Status</th>
-            <th>Submitted Date</th>
-        </tr>
-    </thead>
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Skill</th>
+                        <th>Category</th>
+                        <th>Level</th>
+                        <th>Status</th>
+                        <th>Submitted Date</th>
+                    </tr>
+                </thead>
 
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.SkillName</td>
-                <td>@item.Category</td>
-                <td>@item.Level</td>
-                <td>
-                    <span class="status-badge @item.Status.ToLower()">
-                        @item.Status
-                    </span>
-                </td>
-                <td>@item.SubmittedDate.ToShortDateString()</td>
-            </tr>
-        }
-    </tbody>
-</table>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.SkillName</td>
+                            <td>@item.Category</td>
+                            <td>@item.Level</td>
+                            <td>
+                                <span class="status-badge @item.Status.ToLower()">
+                                    @item.Status
+                                </span>
+                            </td>
+                            <td>@item.SubmittedDate.ToShortDateString()</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

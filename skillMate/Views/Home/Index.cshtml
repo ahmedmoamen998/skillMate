@@ -1,33 +1,51 @@
-﻿@{
+@{
     ViewData["Title"] = "Student Homepage";
 }
 
-<div class="hero">
-    <div>
-        <h1>Welcome to SkillMate</h1>
-        <p>Learn from students, share your skills, and grow together.</p>
+<section class="hero-section text-white rounded-4 p-4 p-md-5 shadow-lg mb-4">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <span class="badge bg-light text-primary mb-3">Student Skill Exchange Platform</span>
+            <h1 class="display-5 fw-bold mb-3">Welcome to SkillMate</h1>
+            <p class="lead mb-4">Learn from students, share your skills, and grow together.</p>
 
-        <div class="hero-actions">
-            <a asp-controller="SkillClasses" asp-action="Index" class="btn-primary">Browse Skills</a>
-            <a asp-controller="InstructorRequests" asp-action="Create" class="btn-secondary">Apply as Instructor</a>
-            <a asp-controller="InstructorRequests" asp-action="MyRequests" class="btn-light">My Requests</a>
+            <div class="d-flex gap-2 flex-wrap">
+                <a asp-controller="SkillClasses" asp-action="Index" class="btn btn-light btn-lg fw-semibold">Browse Skills</a>
+                <a asp-controller="InstructorRequests" asp-action="Create" class="btn btn-success btn-lg fw-semibold">Apply as Instructor</a>
+                <a asp-controller="InstructorRequests" asp-action="MyRequests" class="btn btn-outline-light btn-lg fw-semibold">My Requests</a>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="features-grid">
-    <div class="feature-card">
-        <h3>Browse Skills</h3>
-        <p>Find programming, design, language, and soft skill classes.</p>
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <div class="feature-icon mb-3">01</div>
+                <h3 class="h5 fw-bold">Browse Skills</h3>
+                <p class="text-muted mb-0">Find programming, design, language, and soft skill classes.</p>
+            </div>
+        </div>
     </div>
 
-    <div class="feature-card">
-        <h3>Join Instructors</h3>
-        <p>Register with student instructors and start learning.</p>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <div class="feature-icon mb-3">02</div>
+                <h3 class="h5 fw-bold">Join Instructors</h3>
+                <p class="text-muted mb-0">Register with student instructors and start learning.</p>
+            </div>
+        </div>
     </div>
 
-    <div class="feature-card">
-        <h3>Become Instructor</h3>
-        <p>Submit a request and share your knowledge with classmates.</p>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <div class="feature-icon mb-3">03</div>
+                <h3 class="h5 fw-bold">Become Instructor</h3>
+                <p class="text-muted mb-0">Submit a request and share your knowledge with classmates.</p>
+            </div>
+        </div>
     </div>
 </div>

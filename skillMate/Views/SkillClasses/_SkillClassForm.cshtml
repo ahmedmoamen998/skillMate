@@ -1,14 +1,14 @@
-﻿@model SkillMate.Models.SkillClass
+@model SkillMate.Models.SkillClass
 
-<div class="form-group">
-    <label asp-for="SkillName"></label>
+<div class="mb-3">
+    <label asp-for="SkillName" class="form-label fw-semibold"></label>
     <input asp-for="SkillName" class="form-control" id="SkillName" />
     <span asp-validation-for="SkillName" class="text-danger"></span>
 </div>
 
-<div class="form-group">
-    <label asp-for="Category"></label>
-    <select asp-for="Category" class="form-control" id="Category">
+<div class="mb-3">
+    <label asp-for="Category" class="form-label fw-semibold"></label>
+    <select asp-for="Category" class="form-select" id="Category">
         <option value="">Select Category</option>
         <option value="Programming">Programming</option>
         <option value="Design">Design</option>
@@ -19,15 +19,15 @@
     <span asp-validation-for="Category" class="text-danger"></span>
 </div>
 
-<div class="form-group">
-    <label asp-for="InstructorName"></label>
+<div class="mb-3">
+    <label asp-for="InstructorName" class="form-label fw-semibold"></label>
     <input asp-for="InstructorName" class="form-control" id="InstructorName" />
     <span asp-validation-for="InstructorName" class="text-danger"></span>
 </div>
 
-<div class="form-group">
-    <label asp-for="Level"></label>
-    <select asp-for="Level" class="form-control" id="Level">
+<div class="mb-3">
+    <label asp-for="Level" class="form-label fw-semibold"></label>
+    <select asp-for="Level" class="form-select" id="Level">
         <option value="">Select Level</option>
         <option value="Beginner">Beginner</option>
         <option value="Intermediate">Intermediate</option>
@@ -36,26 +36,26 @@
     <span asp-validation-for="Level" class="text-danger"></span>
 </div>
 
-<div class="form-group">
-    <label asp-for="AvailableTime"></label>
+<div class="mb-3">
+    <label asp-for="AvailableTime" class="form-label fw-semibold"></label>
     <input asp-for="AvailableTime" class="form-control" id="AvailableTime" />
     <span asp-validation-for="AvailableTime" class="text-danger"></span>
 </div>
 
-<div class="form-group">
-    <label asp-for="MaxStudents"></label>
+<div class="mb-3">
+    <label asp-for="MaxStudents" class="form-label fw-semibold"></label>
     <input asp-for="MaxStudents" class="form-control" id="MaxStudents" />
     <span asp-validation-for="MaxStudents" class="text-danger"></span>
 </div>
 
-<div class="form-group">
-    <label asp-for="ContactInfo"></label>
+<div class="mb-3">
+    <label asp-for="ContactInfo" class="form-label fw-semibold"></label>
     <input asp-for="ContactInfo" class="form-control" id="ContactInfo" />
     <span asp-validation-for="ContactInfo" class="text-danger"></span>
 </div>
 
-<div class="form-group">
-    <label asp-for="Description"></label>
-    <textarea asp-for="Description" class="form-control" id="Description"></textarea>
+<div class="mb-3">
+    <label asp-for="Description" class="form-label fw-semibold"></label>
+    <textarea asp-for="Description" class="form-control" id="Description" rows="5"></textarea>
     <span asp-validation-for="Description" class="text-danger"></span>
 </div>
